@@ -1,7 +1,7 @@
 import { RatioType } from './graphql';
 export const origworld = {
   name: 'La planète des singes',
-  logo: 'icones/planete.jpg',
+  logo: 'icones/Logo_world.png',
   money: 0,
   score: 0,
   totalangels: 0,
@@ -12,7 +12,7 @@ export const origworld = {
     {
       id: 1,
       name: 'Vendeur de rose',
-      logo: 'icones/sacpapier.jpg',
+      logo: 'icones/vendeur_rose.png',
       cout: 4,
       croissance: 1.07,
       revenu: 1,
@@ -23,7 +23,7 @@ export const origworld = {
       paliers: [
         {
           name: 'la rose !',
-          logo: 'icones/sacpapier.jpg',
+          logo: 'icones/rose_basique.png',
           seuil: 75,
           idcible: 1,
           ratio: 2,
@@ -32,7 +32,7 @@ export const origworld = {
         },
         {
           name: 'la rose bleue !',
-          logo: 'icones/sacpapier.jpg',
+          logo: 'icones/rose_bleu.png',
           seuil: 20,
           idcible: 1,
           ratio: 2,
@@ -41,7 +41,7 @@ export const origworld = {
         },
         {
           name: 'la rose en or massif !',
-          logo: 'icones/sacpapier.jpg',
+          logo: 'icones/rose_or_massif.png',
           seuil: 75,
           idcible: 1,
           ratio: 2,
@@ -50,7 +50,7 @@ export const origworld = {
         },
         {
           name: 'la rose verte !',
-          logo: 'icones/sacpapier.jpg',
+          logo: 'icones/rose_verte.png',
           seuil: 75,
           idcible: 1,
           ratio: 2,
@@ -58,8 +58,8 @@ export const origworld = {
           unlocked: false,
         },
         {
-          name: 'la rose éternelle !',
-          logo: 'icones/sacpapier.jpg',
+          name: 'la rose violette !',
+          logo: 'icones/rose_violette.png',
           seuil: 75,
           idcible: 1,
           ratio: 2,
@@ -68,7 +68,7 @@ export const origworld = {
         },
         {
           name: 'la rose multicouleur !',
-          logo: 'icones/sacpapier.jpg',
+          logo: 'icones/rose_multicolor.png',
           seuil: 75,
           idcible: 1,
           ratio: 2,
@@ -80,7 +80,7 @@ export const origworld = {
     {
       id: 2,
       name: 'Salle de muscu',
-      logo: 'icones/recyclage.jpg',
+      logo: 'icones/salle_muscu.png',
       cout: 60,
       croissance: 1.15,
       revenu: 60,
@@ -90,8 +90,8 @@ export const origworld = {
       managerUnlocked: false,
       paliers: [
         {
-          name: 'Give me some good bins !',
-          logo: 'icones/recyclage.jpg',
+          name: ' Le banc de muscu !',
+          logo: 'icones/banc_muscu.png',
           seuil: 20,
           idcible: 2,
           ratio: 2,
@@ -99,8 +99,44 @@ export const origworld = {
           unlocked: false,
         },
         {
-          name: 'My Trashcans are better than yours ! ',
-          logo: 'icones/recyclage.jpg',
+          name: 'Le tapis de course ! ',
+          logo: 'icones/tapis_course.png',
+          seuil: 75,
+          idcible: 2,
+          ratio: 2,
+          typeratio: RatioType.vitesse,
+          unlocked: false,
+        },
+        {
+          name: 'La barre de traction ! ',
+          logo: 'icones/barre_traction.png',
+          seuil: 75,
+          idcible: 2,
+          ratio: 2,
+          typeratio: RatioType.vitesse,
+          unlocked: false,
+        },
+        {
+          name: 'Le vélo ! ',
+          logo: 'icones/velo.png',
+          seuil: 75,
+          idcible: 2,
+          ratio: 2,
+          typeratio: RatioType.vitesse,
+          unlocked: false,
+        },
+        {
+          name: 'Kettlebel ! ',
+          logo: 'icones/kettlebel.png',
+          seuil: 75,
+          idcible: 2,
+          ratio: 2,
+          typeratio: RatioType.vitesse,
+          unlocked: false,
+        },
+        {
+          name: 'Dumbbell ! ',
+          logo: 'icones/dumbebell.jpg',
           seuil: 75,
           idcible: 2,
           ratio: 2,
