@@ -9,6 +9,7 @@ export class GraphQlResolver {
   @Query()
   async getWorld(@Args('user') user: string) {
     const world = this.service.readUserWorld(user);
+    this.service.updateScore(world);
     return world;
   }
 
@@ -47,7 +48,7 @@ export class GraphQlResolver {
       throw new Error(`Le produit avec l'id ${id} n'existe pas`);
 
     // Calcul du timeleft
-    product.timeleft = Math.max(product.timeleft - product.vitesse, 0);
+    product.timeleft = product.vitesse;
 
     world = this.updateProduct(world, product)
     this.service.saveWorld(user, world);
