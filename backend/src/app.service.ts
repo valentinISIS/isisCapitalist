@@ -59,7 +59,7 @@ export class AppService {
     return world;
   }
 
-  private productGain(product, timelaps: number){
+  private productGain(product: Product, timelaps: number){
     if (product.managerUnlocked){
       if ((timelaps-product.timeleft) < 0){
         return {gain: 0, timeleft: product.timeleft - timelaps, qt: 0};
