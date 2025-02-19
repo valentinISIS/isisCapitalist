@@ -81,7 +81,7 @@ export class AppService {
     }
   }
 
-  updateUnlocks(world: World, idProduct: number){
+  updateUnlocks(user: string, world: World, idProduct: number){
     this.updateProduct(world, this.updateProductUnlock(this.findProduct(world, idProduct)));
     let mini_seuil = Number.POSITIVE_INFINITY;
     world.products.forEach(product => {
@@ -104,7 +104,31 @@ export class AppService {
       }
     });
 
-    // TODO: Sauvegarder world
+    this.saveWorld(user, world);
+  }
+
+  updateCashUpgrade(world: World, upgrade): World{
+    world.upgrades.map((u) => {
+      if (u.name === upgrade.name){
+        u = upgrade;
+      }
+      else {
+        u = u;
+      }
+    })
+    return world
+  }
+
+  updateAngelUpgrade(world: World, upgrade): World{
+    world.angelupgrades.map((u) => {
+      if (u.name === upgrade.name){
+        u = upgrade;
+      }
+      else {
+        u = u;
+      }
+    })
+    return world
   }
 
   private updateProductUnlock(product: Product): Product{
@@ -128,7 +152,16 @@ export class AppService {
     return world.managers.find((manager => manager.name === name))
   }
 
-  updateProduct(world: World, product: Product){
+  findUpgrade(world: World, name: string){
+    return world.upgrades.find((upgrade => upgrade.name === name))
+  }
+
+  findAngelUpgrade(world: World, name: string){
+    return world.angelupgrades.find((upgrade => upgrade.name === name))
+  }
+
+
+  updateProduct(world: World, product: Product): World{
     world.products.map((p) => {
       if (p.id === product.id){
         p = product;
@@ -140,7 +173,7 @@ export class AppService {
     return world
   }
   
-  updateManager(world: World, manager){
+  updateManager(world: World, manager): World{
     world.managers.map((m) => {
       if (m.name === manager.name){
         m = manager;
