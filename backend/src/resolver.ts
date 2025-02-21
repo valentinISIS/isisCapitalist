@@ -57,7 +57,7 @@ export class GraphQlResolver {
   }
 
   @Mutation()
-  async acheterCashUpgrade(
+  async acheterAngelUpgrade(
     @Args('user') user: string,
     @Args('name') name: string,
   ) {
@@ -70,6 +70,7 @@ export class GraphQlResolver {
 
     // Update de l'upgrade
     angelUpgarde.unlocked = true;
+    world.activeangels -= angelUpgarde.seuil;
 
     if (product == undefined) {
       if ((angelUpgarde.typeratio = RatioType.gain)) {
@@ -84,13 +85,14 @@ export class GraphQlResolver {
     } else {
       world = this.service.updateProduct(world, product);
       world = this.service.updateCashUpgrade(world, angelUpgarde);
-      this.service.saveWorld(user, world);
     }
+
+    this.service.saveWorld(user, world);
     return angelUpgarde;
   }
 
   @Mutation()
-  async acheterAngelUpgrade(
+  async acheterCashUpgrade(
     @Args('user') user: string,
     @Args('name') name: string,
   ) {
@@ -103,6 +105,7 @@ export class GraphQlResolver {
 
     // Update de l'upgrade
     upgarde.unlocked = true;
+    world.money -= upgarde.seuil;
 
     if (product == undefined) {
       if ((upgarde.typeratio = RatioType.gain)) {
@@ -113,6 +116,8 @@ export class GraphQlResolver {
         world.products.map((p) => {
           p.vitesse /= upgarde.ratio;
         });
+      } else if ((upgarde.typeratio = RatioType.ange)) {
+        world.angelbonus *= upgarde.ratio;
       }
     } else {
       world = this.service.updateProduct(world, product);
@@ -139,5 +144,20 @@ export class GraphQlResolver {
     world = this.service.updateManager(world, manager);
     this.service.saveWorld(user, world);
     return manager;
+  }
+
+  @Mutation()
+  async resetWorld(
+    @Args('user') user: string,
+  ) {
+    let userWorld = await this.getWorld(user);
+    let newWorld = origworld;
+
+    newWorld.totalangels = (Math.sqrt(userWorld.score) / 100 | 0);
+    newWorld.activeangels = newWorld.totalangels;
+    newWorld.score = userWorld.score;
+
+    this.service.saveWorld(user, newWorld);
+    return newWorld;
   }
 }

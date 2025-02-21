@@ -43,7 +43,7 @@ export class AppService {
     let pg;
     world.products.forEach(p => {
       pg = this.productGain(p, timelaps);
-      gain += pg.gain;
+      gain += pg.gain * (1 + world.activeangels * world.angelbonus/100);
       p.timeleft = pg.timeleft;
       this.updateProduct(world, p);
     });
@@ -100,6 +100,9 @@ export class AppService {
           world.products.map((p) => {
             p.vitesse /= palier.ratio;
           })
+        }
+        else if ((palier.typeratio = RatioType.ange)) {
+          world.angelbonus *= palier.ratio;
         }
       }
     });
