@@ -16,31 +16,31 @@ export class Palier {
 }
 
 export class Product {
-  id: number | undefined;
-  name: string | undefined;
-  logo: string | undefined;
-  cout: number | undefined;
-  croissance: number | undefined;
-  revenu: number | undefined;
-  vitesse: number | undefined;
-  quantite: number | undefined;
-  timeleft: number | undefined;
-  managerUnlocked: boolean | undefined;
-  paliers: Palier[] | undefined;
+  id: number = 0;
+  name: string = "";
+  logo: string = "";
+  cout: number = 0;
+  croissance: number = 0;
+  revenu: number = 0;
+  vitesse: number = 0;
+  quantite: number = 0;
+  timeleft: number = 0;
+  managerUnlocked: boolean = false;
+  paliers: Palier[] = [];
 }
 
 export class World {
-  name: string | undefined;
-  logo: string | undefined;
-  money: number | undefined;
-  score: number | undefined;
-  totalangels: number | undefined;
-  activeangels: number | undefined;
-  angelbonus: number | undefined;
-  lastupdate: number | undefined;
-  products: Product[] | undefined;
-  allunlocks: Palier[] | undefined;
-  upgrades: Palier[] | undefined;
-  angelupgrades: Palier[] | undefined;
-  managers: Palier[] | undefined;
+  name: string = "";
+  logo: string = "";
+  money: number = 0;
+  score: number = 0;
+  totalangels: number = 0;
+  activeangels: number = 0;
+  angelbonus: number = 0;
+  lastupdate: number = 0;
+  products: Product[] = [];
+  allunlocks: Palier[] = [];
+  upgrades: Palier[] = [];
+  angelupgrades: Palier[] = [];
+  managers: Palier[] = [];
 }

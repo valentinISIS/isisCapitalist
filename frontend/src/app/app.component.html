@@ -21,8 +21,8 @@
 
   <div>
     <div class="main"></div>
-    <div>
-      <app-product *ngIf="world?.products?.length > 0" [prod]="world?.products[0]" class="product"></app-product>
+    <div *ngFor="let product of world?.products">
+      <app-product [prod]="product" class="product"></app-product>
     </div>
   </div>
 </main>
