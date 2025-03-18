@@ -35,22 +35,20 @@ export class AppService {
     );
   }
 
-  updateScore(world: World): World{
-
-    const now = Date.now()
+  updateScore(world: World): World {
+    const now = Date.now();
     const timelaps = now - world.lastupdate;
     let gain = 0;
     let pg;
-    world.products.forEach(p => {
+    world.products.forEach((p) => {
       pg = this.productGain(p, timelaps);
-      gain += pg.gain * (1 + world.activeangels * world.angelbonus/100);
+      gain += pg.gain * (1 + (world.activeangels * world.angelbonus) / 100);
       p.timeleft = pg.timeleft;
       this.updateProduct(world, p);
     });
-    world.angelupgrades.forEach(a => {
+    world.angelupgrades.forEach((a) => {
       if (a.unlocked) gain *= a.ratio;
     });
-
 
     world.lastupdate = now;
     world.money += gain;
@@ -59,49 +57,53 @@ export class AppService {
     return world;
   }
 
-  private productGain(product: Product, timelaps: number){
-    if (product.managerUnlocked){
-      if ((timelaps-product.timeleft) < 0){
-        return {gain: 0, timeleft: product.timeleft - timelaps, qt: 0};
+  private productGain(product: Product, timelaps: number) {
+    if (product.managerUnlocked) {
+      if (timelaps - product.timeleft < 0) {
+        return { gain: 0, timeleft: product.timeleft - timelaps, qt: 0 };
+      } else {
+        return {
+          gain:
+            ((((timelaps - product.timeleft) / product.vitesse) | 0) + 1) *
+            product.revenu,
+          timeleft:
+            product.vitesse - ((timelaps - product.timeleft) % product.vitesse),
+          qt: (((timelaps - product.timeleft) / product.vitesse) | 0) + 1,
+        };
       }
-      else {
-        return {gain: ((((timelaps-product.timeleft) / product.vitesse) | 0) + 1) * product.revenu, timeleft: product.vitesse-((timelaps-product.timeleft) % product.vitesse), qt: ((((timelaps-product.timeleft) / product.vitesse) | 0) + 1)};
-      }
-    }
-    else {
-      if (product.timeleft === 0){
-        return {gain: 0, timeleft: 0, qt: 0};
-      }
-      else if (timelaps > product.timeleft) {
-        return {gain: product.revenu, timeleft: 0, qt: 1};
-      }
-      else {
-        return {gain: 0, timeleft: product.timeleft - timelaps, qt: 0};
+    } else {
+      if (product.timeleft === 0) {
+        return { gain: 0, timeleft: 0, qt: 0 };
+      } else if (timelaps > product.timeleft) {
+        return { gain: product.revenu, timeleft: 0, qt: 1 };
+      } else {
+        return { gain: 0, timeleft: product.timeleft - timelaps, qt: 0 };
       }
     }
   }
 
-  updateUnlocks(user: string, world: World, idProduct: number){
-    this.updateProduct(world, this.updateProductUnlock(this.findProduct(world, idProduct)));
+  updateUnlocks(user: string, world: World, idProduct: number) {
+    this.updateProduct(
+      world,
+      this.updateProductUnlock(this.findProduct(world, idProduct)),
+    );
     let mini_seuil = Number.POSITIVE_INFINITY;
-    world.products.forEach(product => {
+    world.products.forEach((product) => {
       mini_seuil = Math.min(mini_seuil, product.quantite);
     });
 
-    world.upgrades.forEach(palier => {
-      if (palier.unlocked === false && palier.seuil < mini_seuil){
+    world.upgrades.forEach((palier) => {
+      if (palier.unlocked === false && palier.seuil < mini_seuil) {
         palier.unlocked = true;
-        if (palier.typeratio = RatioType.gain){
+        if ((palier.typeratio = RatioType.gain)) {
           world.products.map((p) => {
             p.revenu *= palier.ratio;
-          })
-        }
-        else if (palier.typeratio = RatioType.vitesse){
+          });
+        } else if ((palier.typeratio = RatioType.vitesse)) {
           world.products.map((p) => {
             p.vitesse /= palier.ratio;
-          })
-        }
-        else if ((palier.typeratio = RatioType.ange)) {
+          });
+        } else if ((palier.typeratio = RatioType.ange)) {
           world.angelbonus *= palier.ratio;
         }
       }
@@ -110,83 +112,75 @@ export class AppService {
     this.saveWorld(user, world);
   }
 
-  updateCashUpgrade(world: World, upgrade): World{
+  updateCashUpgrade(world: World, upgrade): World {
     world.upgrades.map((u) => {
-      if (u.name === upgrade.name){
+      if (u.name === upgrade.name) {
         u = upgrade;
-      }
-      else {
+      } else {
         u = u;
       }
-    })
-    return world
+    });
+    return world;
   }
 
-  updateAngelUpgrade(world: World, upgrade): World{
+  updateAngelUpgrade(world: World, upgrade): World {
     world.angelupgrades.map((u) => {
-      if (u.name === upgrade.name){
+      if (u.name === upgrade.name) {
         u = upgrade;
-      }
-      else {
+      } else {
         u = u;
       }
-    })
-    return world
+    });
+    return world;
   }
 
-  private updateProductUnlock(product: Product): Product{
-    product.paliers.forEach(palier => {
-      if (palier.unlocked === false && palier.seuil < product.quantite){
+  private updateProductUnlock(product: Product): Product {
+    product.paliers.forEach((palier) => {
+      if (palier.unlocked === false && palier.seuil < product.quantite) {
         palier.unlocked = true;
-        if (palier.typeratio = RatioType.gain) product.revenu *= palier.ratio;
-        else if (palier.typeratio = RatioType.vitesse) product.vitesse /= palier.ratio;
+        if ((palier.typeratio = RatioType.gain)) product.revenu *= palier.ratio;
+        else if ((palier.typeratio = RatioType.vitesse))
+          product.vitesse /= palier.ratio;
       }
     });
     return product;
   }
 
-
-
-  findProduct(world: World, id: number){
+  findProduct(world: World, id: number) {
     return world.products.find((product) => product.id === id);
   }
 
-  findManager(world: World, name: string){
-    return world.managers.find((manager => manager.name === name))
+  findManager(world: World, name: string) {
+    return world.managers.find((manager) => manager.name === name);
   }
 
-  findUpgrade(world: World, name: string){
-    return world.upgrades.find((upgrade => upgrade.name === name))
+  findUpgrade(world: World, name: string) {
+    return world.upgrades.find((upgrade) => upgrade.name === name);
   }
 
-  findAngelUpgrade(world: World, name: string){
-    return world.angelupgrades.find((upgrade => upgrade.name === name))
+  findAngelUpgrade(world: World, name: string) {
+    return world.angelupgrades.find((upgrade) => upgrade.name === name);
   }
 
-
-  updateProduct(world: World, product: Product): World{
+  updateProduct(world: World, product: Product): World {
     world.products.map((p) => {
-      if (p.id === product.id){
+      if (p.id === product.id) {
         p = product;
-      }
-      else {
+      } else {
         p = p;
       }
-    })
-    return world
+    });
+    return world;
   }
-  
-  updateManager(world: World, manager): World{
+
+  updateManager(world: World, manager): World {
     world.managers.map((m) => {
-      if (m.name === manager.name){
+      if (m.name === manager.name) {
         m = manager;
-      }
-      else {
+      } else {
         m = m;
       }
-    })
-    return world
+    });
+    return world;
   }
 }
-
-

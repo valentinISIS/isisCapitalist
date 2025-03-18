@@ -9,7 +9,7 @@ type Palier {
     logo: String!
     seuil: Float!
     idcible: Int!
-    ratio: Int!
+    ratio: Float!
     typeratio: RatioType!
     unlocked: Boolean!
 }
@@ -21,7 +21,7 @@ type Product {
     cout: Float!
     croissance: Float!
     revenu: Float!
-    vitesse: Int!
+    vitesse: Float!
     quantite: Int!
     timeleft: Int!
     managerUnlocked: Boolean!

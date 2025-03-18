@@ -1,1 +1,35 @@
-<p>product works!</p>
+<div class="produit-card">
+  <div class="produit-card-content">
+      <!-- Image du produit avec style arrondi -->
+      <div class="produit-logo round" [attr.disabled]="product.quantite === 0 ? true : null" (click)="product.quantite > 0 ? startFabrication() : null">
+        <img id="logoProduit"
+             [attr.src]="image_server + product.logo"
+             alt="{{product.name}}"/>
+    </div>
+
+      <div class="produit-details">
+          <span class="produit-name">{{product.name}}</span>
+          <div class="produit-info">
+            <span>Coût : </span> <span [innerHTML]="getCoutTotal() | bigvalue"></span>
+              <span>, Revenu : </span><span [innerHTML]="product.revenu | bigvalue"></span>
+          </div>
+
+          <!-- Barre de progession -->
+          <app-my-progress-bar [run]="run" [auto]="auto"
+               frontcolor="#000000"
+               backcolor="#FFFFFF"
+               [orientation]="orientation"
+               [vitesse]="product.vitesse"
+               [initialValue]="initialValue">
+          </app-my-progress-bar>
+
+           <!-- Bouton pour acheter le produit en fonction du multiplicateur -->
+           <button
+            class="achat-btn"
+            (click)="acheterProduit()"
+            [disabled]="!isBuyable()">
+              Acheter {{ selectedQuantity }} produits
+            </button>
+      </div>
+  </div>
+</div>

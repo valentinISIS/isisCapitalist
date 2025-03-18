@@ -6,13 +6,13 @@ export enum RatioType {
 }
 
 export class Palier {
-  name: string | undefined;
-  logo: string | undefined;
-  seuil: number | undefined;
-  idcible: number | undefined;
-  ratio: number | undefined;
-  typeratio: RatioType | undefined;
-  unlocked: boolean | undefined;
+  name: string = "";
+  logo: string = "";
+  seuil: number = 0;
+  idcible: number = -1;
+  ratio: number = 0;
+  typeratio: RatioType = RatioType.gain;
+  unlocked: boolean = false;
 }
 
 export class Product {

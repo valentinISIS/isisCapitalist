@@ -1,4 +1,4 @@
-import {gql} from "@urql/core";
+import { gql } from '@urql/core';
 
 export const GET_WORLD = gql`
   query getWorld($user: String!) {
@@ -69,4 +69,26 @@ export const GET_WORLD = gql`
         unlocked
       }
     }
+  }
+`;
+
+export const LANCER_PRODUCTION_PRODUIT = gql`
+  mutation lancerProductionProduit($user: String!, $id: Int!){
+    lancerProductionProduit(user: $user, id: $id){id}
+  }`;
+
+export const ACETER_QT_PRODUIT = gql`
+  mutation acheterQtProduit($user: String!, $id: Int!, $quantite: Int!){
+    acheterQtProduit(user: $user, id: $id, quantite: $quantite){id}
+  }`;
+
+export const ENGAGER_MANAGER = gql`
+  mutation engagerManager($user: String!, $name: String!){
+    engagerManager(user: $user, name: $name){id}
+  }`;
+
+
+  export const ACHETERCASHUPGRADE = gql`
+  mutation acheterCashUpgrade($user: String!, $name: String!){
+    acheterCashUpgrade(user: $user, name: $name){id}
   }`;

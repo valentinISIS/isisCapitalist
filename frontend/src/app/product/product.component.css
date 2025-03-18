@@ -1,0 +1,102 @@
+.produit-card {
+  display: flex;
+  border-style: solid;
+  border-width: 3px;
+  border-color: darkgreen;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: olive;
+  margin: 3px;
+  max-width: 400px;
+}
+
+.produit-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.produit-logo {
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.produit-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.produit-card-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.produit-logo img {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.produit-logo img:hover {
+  transform: scale(1.1);
+}
+
+.lesdeux {
+  display: flex;
+  justify-content: space-between;
+}
+
+app-my-progress-bar {
+  width: 100%;
+  height: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.produit-logo[disabled] {
+  opacity: 0.5;
+  pointer-events: none; /* Désactive le clic */
+}
+
+.acheter-btn {
+  background-color: #4CAF50; /* Couleur verte pour le bouton */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.acheter-btn:hover:not(:disabled) {
+  background-color: #45a049; /* Effet hover pour le bouton */
+}
+
+.achat-btn {
+  background: linear-gradient(45deg, #4CAF50, #2E7D32);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.achat-btn:hover {
+  background: linear-gradient(45deg, #66BB6A, #388E3C);
+  transform: scale(1.05);
+}
+
+.achat-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}

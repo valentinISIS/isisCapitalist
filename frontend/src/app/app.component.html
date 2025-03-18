@@ -1,31 +1,99 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
 <main>
   <div class="header">
     <div>
-      <img class="logo" [attr.src]="image_server+'Logo_world.png'"/>
+      <img class="logo" [attr.src]="image_server+'Logo_world.png'" />
       <span id="worldname"> {{world.name}} </span>
     </div>
-    <div> <span id="worldname"> {{world.money}} </span> </div>
-    <div> multiplicateur </div>
+    <div>
+      <span [innerHTML]="world.money | bigvalue"> </span>
+    </div>
+    <!-- Sélecteur de quantité dynamique -->
+    <div class="quantity-selector">
+      <button (click)="changeQuantity()"
+        [attr.data-quantity]="selectedQuantity">
+        {{ selectedQuantity }}
+      </button>
+    </div>
     <div> <span id="worldname"> {{user}} </span> </div>
   </div>
 
   <div>
     <div class="main"></div>
     <div *ngFor="let product of world?.products">
-      <app-product [prod]="product" class="product"></app-product>
+      <app-product [prod]="product"
+        class="product"
+        (notifyProduction)="onProductionDone($event)"
+        (notifyBuy)="onBuy($event)"
+        [selectedQuantity]="selectedQuantity"
+        [worldMoney]="world.money">
+      </app-product>
+    </div>
+
+    <!-- Barre latérale avec les onglets -->
+    <div class="sidebar">
+      <!-- Onglets -->
+      <div class="tabs">
+        <div
+          class="tab"
+          [class.active]="activeTab === 'managers'"
+          (click)="activeTab = 'managers'">
+          Managers
+        </div>
+        <div
+          class="tab"
+          [class.active]="activeTab === 'upgrades'"
+          (click)="activeTab = 'upgrades'">
+          Upgrades
+        </div>
+      </div>
+
+      <!-- Contenu de l'onglet Managers -->
+      <div *ngIf="activeTab === 'managers'">
+        <h3>Managers</h3>
+        <div *ngFor="let manager of world.managers">
+          <div *ngIf="!manager.unlocked" class="item">
+            <div class="item-info">
+              <img [src]="image_server + manager.logo" alt="manager logo"
+                class="item-logo">
+              <div>
+                <div class="item-name">{{ manager.name }}</div>
+                <div class="item-cible">{{
+                  world.products[manager.idcible-1].name }}</div>
+                <div class="item-cost">{{ manager.seuil }} $</div>
+              </div>
+            </div>
+            <button class="hirebutton" (click)="engagerManager(manager)"
+              [disabled]="world.money < manager.seuil">
+              Engager
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenu de l'onglet Upgrades -->
+      <div *ngIf="activeTab === 'upgrades'">
+        <h3>Upgrades</h3>
+        <div *ngFor="let upgrade of world.upgrades">
+          <div *ngIf="!upgrade.unlocked" class="item">
+            <div class="item-info">
+              <img [src]="image_server + upgrade.logo" alt="upgrade logo"
+                class="item-logo">
+              <div>
+                <div class="item-name">{{ upgrade.name }}</div>
+                <div class="item-effect">{{ upgrade.typeratio }}: x{{
+                  upgrade.ratio }}</div>
+                <div class="item-cost">{{ upgrade.seuil }} $</div>
+              </div>
+            </div>
+            <button class="hirebutton" (click)="acheterUpgrade(upgrade)"
+              [disabled]="world.money < upgrade.seuil">
+              Acheter
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
-
 
 <router-outlet />

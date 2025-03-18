@@ -28,9 +28,11 @@ export class GraphQlResolver {
     // Calcul du cout
     product.quantite += quantite;
     world.money -=
-      product.cout *
-      ((1 - product.croissance) ** quantite / (1 - product.croissance));
-    product.cout *= (1 + product.croissance) ** quantite;
+    (product.cout *
+      (1 - Math.pow(product.croissance, quantite))) /
+    (1 - product.croissance)
+    product.cout *= Math.pow(product.croissance*1.05, quantite);
+    product.revenu *= Math.pow(product.croissance, quantite);
 
     world = this.service.updateProduct(world, product);
     this.service.updateUnlocks(user, world, product.id);
