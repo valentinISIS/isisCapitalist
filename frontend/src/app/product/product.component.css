@@ -7,7 +7,8 @@
   justify-content: space-between;
   background-color: olive;
   margin: 3px;
-  max-width: 400px;
+  max-width: 450px;
+  position: relative;
 }
 
 .produit-card-content {
@@ -99,4 +100,112 @@ app-my-progress-bar {
   background: #ccc;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.unlock-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.unlock-button:hover {
+  background-color: #e67e22;
+}
+
+.unlocks-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  max-height: 500px;  /* Taille maximale du pop-up */
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  overflow: hidden;  /* Empêche le dépassement */
+}
+
+.unlocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 400px;  /* Hauteur max pour afficher les unlocks */
+  overflow-y: auto;  /* Ajoute le défilement vertical */
+  padding-right: 10px; /* Ajoute un petit espace pour éviter que la scrollbar ne cache le contenu */
+}
+
+/* Personnalisation de la scrollbar */
+.unlocks-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.unlocks-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.unlocks-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.unlocks-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.unlock-item {
+  display: flex;
+  align-items: center;
+  background: #ecf0f1;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  width: 90%;
+}
+
+.unlock-item.locked {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.unlock-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+.unlock-info {
+  flex-grow: 1;
+}
+
+.unlock-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.unlock-threshold {
+  color: #7f8c8d;
+}
+
+.close-unlocks {
+  margin-top: 15px;
+  padding: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-unlocks:hover {
+  background: #c0392b;
 }

@@ -1,35 +1,61 @@
 <div class="produit-card">
   <div class="produit-card-content">
-      <!-- Image du produit avec style arrondi -->
-      <div class="produit-logo round" [attr.disabled]="product.quantite === 0 ? true : null" (click)="product.quantite > 0 ? startFabrication() : null">
-        <img id="logoProduit"
-             [attr.src]="image_server + product.logo"
-             alt="{{product.name}}"/>
+    <!-- Image du produit avec style arrondi -->
+    <div class="produit-logo round"
+      [attr.disabled]="product.quantite === 0 ? true : null"
+      (click)="product.quantite > 0 ? startFabrication() : null">
+      <img id="logoProduit"
+        [attr.src]="image_server + product.logo"
+        alt="{{product.name}}" />
     </div>
 
-      <div class="produit-details">
-          <span class="produit-name">{{product.name}}</span>
-          <div class="produit-info">
-            <span>Coût : </span> <span [innerHTML]="getCoutTotal() | bigvalue"></span>
-              <span>, Revenu : </span><span [innerHTML]="product.revenu | bigvalue"></span>
-          </div>
-
-          <!-- Barre de progession -->
-          <app-my-progress-bar [run]="run" [auto]="auto"
-               frontcolor="#000000"
-               backcolor="#FFFFFF"
-               [orientation]="orientation"
-               [vitesse]="product.vitesse"
-               [initialValue]="initialValue">
-          </app-my-progress-bar>
-
-           <!-- Bouton pour acheter le produit en fonction du multiplicateur -->
-           <button
-            class="achat-btn"
-            (click)="acheterProduit()"
-            [disabled]="!isBuyable()">
-              Acheter {{ selectedQuantity }} produits
-            </button>
+    <div class="produit-details">
+      <span class="produit-name">{{product.name}}</span>
+      <div class="produit-info">
+        <span>Coût : </span> <span
+          [innerHTML]="getCoutTotal() | bigvalue"></span>
+        <span>, Revenu : </span><span
+          [innerHTML]="product.revenu | bigvalue"></span>
       </div>
+
+      <!-- Barre de progession -->
+      <app-my-progress-bar [run]="run" [auto]="auto"
+        frontcolor="#000000"
+        backcolor="#FFFFFF"
+        [orientation]="orientation"
+        [vitesse]="product.vitesse"
+        [initialValue]="initialValue">
+      </app-my-progress-bar>
+
+      <!-- Bouton pour acheter le produit en fonction du multiplicateur -->
+      <button
+        class="achat-btn"
+        (click)="acheterProduit()"
+        [disabled]="!isBuyable()">
+        Acheter {{ selectedQuantity }} produits
+      </button>
+    </div>
+  </div>
+
+  <!-- Bouton pour afficher le pop-up des unlocks -->
+  <button class="unlock-button" (click)="toggleUnlocksPopup()">
+    🔓 Voir les Unlocks
+  </button>
+
+  <!-- Pop-up des unlocks -->
+  <div class="unlocks-modal" *ngIf="showUnlocks">
+    <h2>Unlocks de {{ product.name }}</h2>
+
+    <div class="unlocks-container">
+      <div *ngFor="let unlock of product.paliers" class="unlock-item" [ngClass]="{'locked': product.quantite < unlock.seuil}">
+        <img [src]="image_server + unlock.logo" class="unlock-image" alt="Unlock Image">
+        <div class="unlock-info">
+          <p class="unlock-name">{{ unlock.name }}</p>
+          <p class="unlock-threshold">Seuil: {{ unlock.seuil | bigvalue }}</p>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="toggleUnlocksPopup()" class="close-unlocks">Fermer</button>
   </div>
 </div>

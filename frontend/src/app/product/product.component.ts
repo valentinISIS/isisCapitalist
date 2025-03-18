@@ -1,15 +1,16 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { Product } from '../class';
+import { Product, RatioType } from '../class';
 import { BigvaluePipe } from '../bigvalue.pipe';
 import { MyProgressBarComponent, Orientation } from '../progressbar.component';
 import { EventEmitter } from '@angular/core';
 import { WebserviceService } from './../webservice.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  imports: [BigvaluePipe, MyProgressBarComponent],
+  imports: [BigvaluePipe, MyProgressBarComponent, CommonModule],
 })
 export class ProductComponent implements OnInit {
   image_server = 'http://localhost:3000/icones/';
@@ -28,8 +29,7 @@ export class ProductComponent implements OnInit {
   @Output() notifyProduction: EventEmitter<{ p: Product; qt: number }> =
     new EventEmitter();
 
-  @Output() notifyBuy: EventEmitter<number> =
-    new EventEmitter();
+  @Output() notifyBuy: EventEmitter<number> = new EventEmitter();
 
   initialValue = 0;
   run = false;
@@ -127,9 +127,14 @@ export class ProductComponent implements OnInit {
     let totalCost = this.getCoutTotal();
     this.notifyBuy.emit(totalCost);
     this.product.quantite += quantityToBuy;
-    this.product.cout *= Math.pow(this.product.croissance*1.05, quantityToBuy);
+    this.product.cout *= Math.pow(
+      this.product.croissance * 1.05,
+      quantityToBuy
+    );
     this.product.revenu *= Math.pow(this.product.croissance, quantityToBuy);
     this.service.acheterQtProduit(this.product.id, quantityToBuy);
+
+    this.verifyPalier();
   }
 
   calcMaxCanBuy(): number {
@@ -140,7 +145,7 @@ export class ProductComponent implements OnInit {
     while (totalCost <= totalMoney) {
       // Calcul du prix pour le produit suivant
       let priceForNextProduct =
-      this.product.cout * Math.pow(this.product.croissance, quantity); // prix avec l'augmentation progressive
+        this.product.cout * Math.pow(this.product.croissance, quantity); // prix avec l'augmentation progressive
 
       if (totalCost + priceForNextProduct > totalMoney) {
         break; // On arrête si l'on ne peut pas se permettre d'acheter le prochain produit
@@ -194,5 +199,23 @@ export class ProductComponent implements OnInit {
         (1 - Math.pow(this.product.croissance, quantiteAacheter))) /
       (1 - this.product.croissance)
     );
+  }
+
+  showUnlocks = false; // Gère l'affichage du pop-up
+
+  toggleUnlocksPopup() {
+    this.showUnlocks = !this.showUnlocks;
+  }
+
+  verifyPalier() {
+    this.product.paliers.forEach((palier) => {
+      if (palier.unlocked === false && palier.seuil < this.product.quantite) {
+        palier.unlocked = true;
+        if ((palier.typeratio = RatioType.gain))
+          this.product.revenu *= palier.ratio;
+        else if ((palier.typeratio = RatioType.vitesse))
+          this.product.vitesse /= palier.ratio;
+      }
+    });
   }
 }
