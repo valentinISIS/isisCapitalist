@@ -441,8 +441,8 @@ export const origworld = {
   ],
   upgrades: [
     {
-      name: 'Do you like paper bag ?',
-      logo: 'sacpapier.jpg',
+      name: 'Aimes-tu les fleurs ?',
+      logo: 'fleur_Up.png',
       seuil: 3000,
       idcible: 1,
       ratio: 3.5,
@@ -450,8 +450,8 @@ export const origworld = {
       unlocked: false,
     },
     {
-      name: 'This is my bin',
-      logo: 'recyclage.jpg',
+      name: 'Veux-tu avoir de beaux muscles ?',
+      logo: 'muscu_Up.png',
       seuil: 10000,
       idcible: 2,
       ratio: 4,
